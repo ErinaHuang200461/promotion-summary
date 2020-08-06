@@ -49,3 +49,58 @@ class App extends Component {
 更新过程是指父组件向下传递`props`或组件自身执行`setState`方法时发生的一系列动作。  
 如果组件自身的`state`更新了，那么会依次执行`shouldComponentUpdate`、`componentWillUpdate`、`render`和`componentDidUpdate`。
 `shouldComponentUpdate`是一个特别的方法，它接收需要更新的`props`和`state`，让开发者增加必要的条件判断，让其在更新时更新，不需要时不更新。因此，当方法为`false`的时候，组件不再向下执行生命周期方法。  
+## 2020年8月5日
+### 今日一题 
+**请解释React中props和state的区别？**
+props（“properties” 的缩写）和 state 都是普通的 JavaScript 对象。它们都是用来保存信息的，这些信息可以控制组件的渲染输出，而它们的几个重要的不同点就是：
+* props 是传递给组件的（类似于函数的形参），而 state 是在组件内被组件自己管理的（类似于在一个函数内声明的变量）。  
+* props 是不可修改的，所有 React 组件都必须像纯函数一样保护它们的 props 不被更改。 由于 props 是传入的，并且它们不能更改，因此我们可以将任何仅使用 props 的 React 组件视为 pureComponent，也就是说，在相同的输入下，它将始终呈现相同的输出。  
+* state 是在组件中创建的，一般在 constructor中初始化 state。  
+* state 是多变的、可以修改，每次setState都异步更新的。
+
+### Array.from() 方法
+从一个类似数组或者可迭代对象创建一个新的，浅拷贝的数组实例
+```javascript
+console.log(Array.from('hello')) // (5) ["h", "e", "l", "l", "o"]
+Array.from([1,2,3], index => {console.log(index)})
+Array.from({length: 5}, (v, i) => i); // (5) [0, 1, 2, 3, 4]
+```
+### JS解析url查询参数
+```javascript
+const url = 'www.u.com/home?id=2&type=0&dtype=-1';
+const parseUrl  = (url) => {
+	const query = url.split('?')[1];
+	const paramsArr = query.split('&');
+	const result = {}
+	paramsArr.forEach(param => {
+		const temp = param.split('=');
+		result[temp[0]] = temp[1];
+	})
+	return result;
+}
+parseUrl(url); // {id: "2", type: "0", dtype: "-1"}
+```
+### React 
+#### vsCode 协助写代码插件 Live Share
+#### 创建React
+```
+npm(cnpm) i create-react-app -g  
+create-react-app xxx  
+cd xxx  
+npm start  
+```
+## 2020年8月6日
+### 今日一题 
+** 浏览器的本地存储(1)的cookie了解多少？**
+**定义**：HTTP cookie，通常直接叫做cookie，是客户端用来存储数据的一种选项，它既可以在客户端设置也可以在服务器端设置。cookie会跟随任意HTTP请求一起发送。
+**优点**：兼容性好
+cookie 将信息存储于用户硬盘，因此可以作为全局变量，这是它最大的一个优点。它最根本的用途是 Cookie 能够帮助 Web 站点保存有关访问者的信息，以下列举cookie的几种小用途。
+
+* 保存用户登录信息。这应该是最常用的了。当您访问一个需要登录的界面，例如微博、百度及一些论坛，在登录过后一般都会有类似"下次自动登录"的选项，勾选过后下次就不需要重复验证。这种就可以通过cookie保存用户的id。
+* 创建购物车。购物网站通常把已选物品保存在cookie中，这样可以实现不同页面之间数据的同步(同一个域名下是可以共享cookie的)，同时在提交订单的时候又会把这些cookie传到后台。
+* 跟踪用户行为。例如百度联盟会通过cookie记录用户的偏好信息，然后向用户推荐个性化推广信息，所以浏览其他网页的时候经常会发现旁边的小广告都是自己最近百度搜过的东西。这是可以禁用的，这也是cookie的缺点之一。  
+**缺点**：
+* 安全性：由于cookie在HTTP中是明文传递的，其中包含的数据都可以被他人访问，可能会被篡改、盗用。
+* 大小限制：cookie的大小限制在4KB左右，若要做大量存储显然不是理想的选择。
+* 增加流量：cookie每次请求都会被自动添加到Request Header中，无形中增加了流量。cookie信息越大，对服务器请求的时间也越长。
+[精选文章](https://segmentfault.com/a/1190000004743454)
